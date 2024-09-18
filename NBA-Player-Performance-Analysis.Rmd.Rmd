@@ -1,0 +1,85 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+## Descriptive Analysis
+
+```r
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Load the data
+data <- read.csv("E:/Baylor Material/STA 5V85 - Capstone/Analysis 1/all_seasons.csv")
+
+# Basic summary of the dataset
+summary(data)
+
+# Average age, height, and weight
+cat("Average Age: ", mean(data$age), "\n")
+cat("Average Height: ", mean(data$player_height), "\n")
+cat("Average Weight: ", mean(data$player_weight), "\n")
+
+# Distribution of players by team and country
+cat("Top 5 Teams by Player Count:\n")
+print(sort(table(data$team_abbreviation), decreasing = TRUE)[1:5])
+
+cat("Top 5 Countries by Player Count:\n")
+print(sort(table(data$country), decreasing = TRUE)[1:5])
+
+# Average points, rebounds, and assists per game
+cat("Average Points Per Game: ", mean(data$pts), "\n")
+cat("Average Rebounds Per Game: ", mean(data$reb), "\n")
+cat("Average Assists Per Game: ", mean(data$ast), "\n")
+
+```
+
+## Diagnostic Analysis
+
+```r
+# Assuming data is already loaded and 'ggplot2' is available
+
+# Points, Rebounds, and Assists vs. Age
+ggplot(data, aes(x=age, y=pts)) + geom_point(alpha=0.3) + geom_smooth(method="lm", color="red") + ggtitle("Points vs. Age")
+ggplot(data, aes(x=age, y=reb)) + geom_point(alpha=0.3) + geom_smooth(method="lm", color="green") + ggtitle("Rebounds vs. Age")
+ggplot(data, aes(x=age, y=ast)) + geom_point(alpha=0.3) + geom_smooth(method="lm", color="blue") + ggtitle("Assists vs. Age")
+
+# Rebounds vs. Player Height
+ggplot(data, aes(x=player_height, y=reb)) + geom_point(alpha=0.3) + geom_smooth(method="lm", color="orange") + ggtitle("Rebounds vs. Player Height")
+
+```
+
+## Predictive Analysis
+
+```r
+# Load necessary libraries
+install.packages("caret")
+install.packages("e1071")
+
+library(caret)
+library(e1071)
+
+# Assuming data is already loaded
+
+# Prepare the data
+set.seed(42)
+index <- createDataPartition(data$pts, p=0.8, list=FALSE)
+train <- data[index,]
+test <- data[-index,]
+
+# Linear regression model
+model <- lm(pts ~ age + player_height + player_weight, data=train)
+
+# Model summary
+summary(model)
+
+# Predictions
+predictions <- predict(model, test)
+
+# Calculate RMSE
+rmse <- sqrt(mean((predictions - test$pts)^2))
+cat("RMSE: ", rmse, "\n")
+
+```
+
