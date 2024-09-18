@@ -11,7 +11,6 @@ Comprehensive analysis of NBA player performance using the all_seasons dataset. 
 
 ### Repository Structure
 - `NBA-Player-Performance-Analysis.Rmd` - R Markdown file for descriptive analysis, including summary statistics and distribution analysis, diagnostic analysis, including scatter plots and regression analysis of player performance, predictive modeling using linear regression.
-- `Figures/` - Folder containing visualizations, such as scatter plots of performance metrics versus age and height.
 - `Detailed_Report.pdf` - PDF file with a comprehensive report summarizing all analyses and findings.
 
 
